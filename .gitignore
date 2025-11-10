@@ -1,0 +1,32 @@
+# Archivos sensibles - NO SUBIR
+credenciales.json
+.env
+
+# Entorno virtual de Python
+.venv/
+venv/
+env/
+ENV/
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+credentials.json
+credentials.json

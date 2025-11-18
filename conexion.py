@@ -188,21 +188,30 @@ def sync_data():
         resultados = []
         errores = []
 
-        for idx, fila in enumerate(registros, start=2):  # start=2 porque la fila 1 son encabezados
+            for idx, fila in enumerate(registros, start=2):  # start=2 porque la fila 1 son encabezados
             try:
                 # Saltar filas completamente vacías
                 if not any(fila):
+<<<<<<< HEAD
                     print(f"Fila {idx} vacía, saltando...")
                     continue
 
                 # Filtro adicional: saltar filas sin correo (columna 2 = fila[1])
                 if len(fila) < 2 or not fila[1].strip():
                     print(f" Fila {idx} sin correo, saltando...")
+=======
+                    print(f"❌ Fila {idx} vacía, saltando...")
+                    continue
+
+                # 🧩 Filtro adicional: saltar filas sin correo (columna 2 = fila[1])
+                if len(fila) < 2 or not fila[1].strip():
+                    print(f"⚠️ Fila {idx} sin correo, saltando...")
+>>>>>>> 42b52516202c022d2838f989a5a9a01bb72fb01d
                     continue
 
                 res = insertar_respuesta_supabase(fila)
                 resultados.append(res)
-                print(f" Fila {idx} insertada correctamente")
+                print(f"✅ Fila {idx} insertada correctamente")
             except Exception as e:
                 print(f" Error al insertar fila {idx}:", e)
                 errores.append({"fila": idx, "error": str(e)})

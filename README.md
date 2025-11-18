@@ -113,3 +113,131 @@ Janine Flores, Yostin Campoy
 ##  Licencia
 
 Este proyecto es de uso educativo.
+
+
+# Sincronizador Base44 → Supabase (Flask API)
+
+Este proyecto implementa una API en Python + Flask que sincroniza automáticamente los resultados del test almacenados en Base44 hacia una tabla en Supabase, replicando el mismo mapeo que originalmente se usaba para integrar datos desde Google Forms.
+El sistema fue diseñado para:
+Leer entidades TestResult desde Base44.
+Extraer datos del usuario (personal_info).
+Mapear las respuestas del test (answers) a columnas específicas.
+Insertar los datos en Supabase en la tabla respuestas_googleforms.
+Proporcionar endpoints de prueba, diagnóstico y verificación.
+
+# Características principales
+✔ Integración directa con Base44
+El sistema se conecta a la API de Base44 usando:
+app_id
+entity (TestResult)
+api_key
+
+✔ Inserción automática en Supabase
+Los datos se insertan usando supabase-py, con claves:
+SUPABASE_URL
+SUPABASE_KEY
+Tabla destino: respuestas_googleforms
+
+✔ Mapeo idéntico a Google Forms
+Aunque Base44 entrega la información en JSON estructurado, el código traduce todo al mismo formato que llegaba desde Google Sheets:
+Base44	Supabase Column
+
+personal_info.carrera	carrera
+
+personal_info.semestre	semestre
+
+personal_info.edad	edad
+
+personal_info.genero	genero
+
+personal_info.trabaja	trabajas
+
+answers[0].answer_text	closet
+
+answers[1].answer_text	conocidos
+…	…
+answers[9].answer_text	tarjeta
+
+# Estructura del Proyecto
+/BASE44.py        → Código principal Flask + Sync
+
+/README.md        → Este archivo
+
+/venv             → Entorno virtual (opcional)
+# Requerimientos
+Instalar dependencias:
+
+pip install flask supabase requests
+
+También necesitas:
+
+Cuenta de Base44
+API Key
+APP ID
+Nombre de la entidad (TestResult)
+Proyecto en Supabase
+Tabla respuestas_googleforms creada
+ Estructura esperada en Base44
+
+# Cómo ejecutar el servidor
+Corre el script:
+
+python BASE44.py
+
+El servidor inicia en:
+
+http://127.0.0.1:5001/
+# Rutas disponibles (Endpoints)
+GET /
+Panel principal con enlaces a todas las rutas.
+
+GET /ver-datos
+Obtiene y muestra la estructura real de Base44 (primeros registros).
+Sirve para depurar el mapeo.
+
+GET /status
+Muestra:
+Conexión con Base44
+Conexión con Supabase
+Número de registros encontrados
+
+GET /test
+Verifica que el servidor Flask esté funcionando.
+
+GET /sync
+Sincroniza Base44 → Supabase
+
+Acciones:
+Consulta todas las entidades TestResult en Base44
+Extrae personal_info
+Extrae las respuestas answers
+Construye el objeto con el mapeo exacto
+Inserta cada registro en Supabase
+Salida ejemplo:
+{
+  "mensaje": "Sincronización completada",
+  "registros_insertados": 1,
+  "registros_con_error": 0
+}
+# Mapeo completo implementado
+"closet"        = answers[0].answer_text
+
+"conocidos"     = answers[1].answer_text
+
+"vida_compra"   = answers[2].answer_text
+
+"innecessario"  = answers[3].answer_text
+
+"no_planeado"   = answers[4].answer_text
+
+"compulsivo"    = answers[5].answer_text
+
+"ofertas"       = answers[6].answer_text
+
+"ingresos"      = answers[7].answer_text
+
+"deudas"        = answers[8].answer_text
+
+"tarjeta"       = answers[9].answer_text
+
+
